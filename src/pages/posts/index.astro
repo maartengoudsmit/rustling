@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title="Posts" description="All blog posts">
+  <h1>Posts</h1>
+  <p class="subtitle">Longer writings and essays</p>
+
+  {posts.length === 0 ? (
+    <p class="empty">No posts yet.</p>
+  ) : (
+    <ul class="posts-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/posts/${post.slug}`}>
+            <span class="title">{post.data.title}</span>
+            <span class="description">{post.data.description}</span>
+          </a>
+          <time datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    color: var(--color-muted);
+    margin-bottom: 2rem;
+  }
+
+  .empty {
+    color: var(--color-muted);
+  }
+
+  .posts-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .posts-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .posts-list a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .title {
+    font-weight: 500;
+  }
+
+  .description {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  time {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+</style>

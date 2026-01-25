@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const notes = (await getCollection('notes'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+});
+---
+
+<BaseLayout title="Notes" description="Quick notes and updates">
+  <h1>Notes</h1>
+  <p class="subtitle">Quick thoughts and updates</p>
+
+  {notes.length === 0 ? (
+    <p class="empty">No notes yet.</p>
+  ) : (
+    <ul class="notes-list">
+      {notes.map(async (note) => {
+        const { Content } = await note.render();
+        return (
+          <li class="note-item">
+            <div class="note-content">
+              <Content />
+            </div>
+            <footer class="note-meta">
+              <time datetime={note.data.pubDate.toISOString()}>
+                {formatDate(note.data.pubDate)}
+              </time>
+              <a href={`/notes/${note.slug}`}>permalink</a>
+              {note.data.tags.length > 0 && (
+                <div class="tags">
+                  {note.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+                </div>
+              )}
+            </footer>
+          </li>
+        );
+      })}
+    </ul>
+  )}
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    color: var(--color-muted);
+    margin-bottom: 2rem;
+  }
+
+  .empty {
+    color: var(--color-muted);
+  }
+
+  .notes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .note-item {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .note-item:last-child {
+    border-bottom: none;
+  }
+
+  .note-content {
+    line-height: 1.7;
+  }
+
+  .note-content :global(p) {
+    margin-bottom: 0.5rem;
+  }
+
+  .note-meta {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    color: var(--color-accent);
+  }
+</style>

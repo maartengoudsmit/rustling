@@ -1,0 +1,142 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const notes = (await getCollection('notes'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 5);
+
+const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<BaseLayout>
+  <section class="intro">
+    <h1>The Rustling of the Leaves</h1>
+    <p>Thoughts, notes, and longer writings.</p>
+  </section>
+
+  {notes.length > 0 && (
+    <section class="notes-section">
+      <h2>Recent Notes</h2>
+      <ul class="notes-list">
+        {notes.map(async (note) => {
+          const { Content } = await note.render();
+          return (
+            <li class="note-item">
+              <div class="note-preview">
+                <Content />
+              </div>
+              <footer class="note-meta">
+                <time datetime={note.data.pubDate.toISOString()}>
+                  {formatDate(note.data.pubDate)}
+                </time>
+                <a href={`/notes/${note.slug}`}>permalink</a>
+              </footer>
+            </li>
+          );
+        })}
+      </ul>
+      <a href="/notes" class="view-all">All notes →</a>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="posts-section">
+      <h2>Recent Posts</h2>
+      <ul class="posts-list">
+        {posts.map((post) => (
+          <li>
+            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {formatDate(post.data.pubDate)}
+            </time>
+          </li>
+        ))}
+      </ul>
+      <a href="/posts" class="view-all">All posts →</a>
+    </section>
+  )}
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-bottom: 3rem;
+  }
+
+  .intro h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .intro p {
+    color: var(--color-muted);
+  }
+
+  section {
+    margin-bottom: 3rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--color-muted);
+    font-weight: 500;
+  }
+
+  .notes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .note-item {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .note-preview :global(p) {
+    margin-bottom: 0.5rem;
+  }
+
+  .note-meta {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    display: flex;
+    gap: 1rem;
+  }
+
+  .posts-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .posts-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .posts-list time {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  .view-all {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+</style>
