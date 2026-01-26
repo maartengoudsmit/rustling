@@ -2,13 +2,18 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const posts = (await getCollection('posts', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = await getCollection('posts', ({ data }) => !data.draft);
+const notes = await getCollection('notes');
 
-const notes = (await getCollection('notes'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+// Combine into a unified timeline
+type TimelineItem =
+  | { type: 'post'; data: typeof posts[number] }
+  | { type: 'note'; data: typeof notes[number] };
+
+const timeline: TimelineItem[] = [
+  ...posts.map(post => ({ type: 'post' as const, data: post })),
+  ...notes.map(note => ({ type: 'note' as const, data: note })),
+].sort((a, b) => b.data.data.pubDate.valueOf() - a.data.data.pubDate.valueOf());
 
 const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   year: 'numeric',
@@ -23,47 +28,44 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
     <p>Thoughts, notes, and longer writings.</p>
   </section>
 
-  {notes.length > 0 && (
-    <section class="notes-section">
-      <h2>Recent Notes</h2>
-      <ul class="notes-list">
-        {notes.map(async (note) => {
-          const { Content } = await note.render();
-          return (
-            <li class="note-item">
-              <div class="note-preview">
-                <Content />
-              </div>
-              <footer class="note-meta">
-                <time datetime={note.data.pubDate.toISOString()}>
-                  {formatDate(note.data.pubDate)}
-                </time>
-                <a href={`/notes/${note.slug}`}>permalink</a>
-              </footer>
-            </li>
-          );
-        })}
-      </ul>
-      <a href="/notes" class="view-all">All notes →</a>
-    </section>
-  )}
-
-  {posts.length > 0 && (
-    <section class="posts-section">
-      <h2>Recent Posts</h2>
-      <ul class="posts-list">
-        {posts.map((post) => (
-          <li>
-            <a href={`/posts/${post.slug}`}>{post.data.title}</a>
-            <time datetime={post.data.pubDate.toISOString()}>
-              {formatDate(post.data.pubDate)}
+  <ul class="timeline">
+    {timeline.map(async (item) => {
+      if (item.type === 'note') {
+        const { Content } = await item.data.render();
+        return (
+          <li class="timeline-item note">
+            <div class="note-content">
+              <Content />
+            </div>
+            <footer class="item-meta">
+              <time datetime={item.data.data.pubDate.toISOString()}>
+                {formatDate(item.data.data.pubDate)}
+              </time>
+              <a href={`/notes/${item.data.slug}`}>permalink</a>
+              {item.data.data.tags.length > 0 && (
+                <span class="tags">
+                  {item.data.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+                </span>
+              )}
+            </footer>
+          </li>
+        );
+      } else {
+        return (
+          <li class="timeline-item post">
+            <a href={`/posts/${item.data.slug}`} class="post-link">
+              <span class="post-title">{item.data.data.title}</span>
+              <span class="post-description">{item.data.data.description}</span>
+              <span class="read-more">Read article <span class="arrow">→</span></span>
+            </a>
+            <time class="post-date" datetime={item.data.data.pubDate.toISOString()}>
+              {formatDate(item.data.data.pubDate)}
             </time>
           </li>
-        ))}
-      </ul>
-      <a href="/posts" class="view-all">All posts →</a>
-    </section>
-  )}
+        );
+      }
+    })}
+  </ul>
 </BaseLayout>
 
 <style>
@@ -72,71 +74,155 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   }
 
   .intro h1 {
-    font-size: 1.75rem;
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 600;
     margin-bottom: 0.5rem;
+    color: var(--color-text);
   }
 
   .intro p {
-    color: var(--color-muted);
+    color: var(--color-text-secondary);
+    font-size: var(--text-lg);
   }
 
-  section {
-    margin-bottom: 3rem;
-  }
-
-  h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    color: var(--color-muted);
-    font-weight: 500;
-  }
-
-  .notes-list {
+  .timeline {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .note-item {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid #e5e5e5;
+  .timeline-item {
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
+    transition: box-shadow var(--transition), transform var(--transition);
   }
 
-  .note-preview :global(p) {
+  /* Posts - left border style */
+  .timeline-item.post {
+    background: transparent;
+    border-left: 3px solid var(--color-post);
+    padding-left: 1.25rem;
+    border-radius: 0;
+  }
+
+  .timeline-item.post:hover {
+    background: rgba(90, 125, 90, 0.04);
+  }
+
+  /* Notes - card style */
+  .timeline-item.note {
+    background: var(--color-bg-secondary);
+    border-left: 3px solid var(--color-note);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .timeline-item.note:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+
+  /* Notes */
+  .note-content {
+    line-height: 1.7;
+  }
+
+  .note-content :global(p) {
     margin-bottom: 0.5rem;
   }
 
-  .note-meta {
-    font-size: 0.875rem;
+  .note-content :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Posts */
+  .post-link {
+    display: block;
+  }
+
+  .post-title {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: var(--text-xl);
+    color: var(--color-text);
+    transition: color var(--transition);
+  }
+
+  .post-link:hover .post-title {
+    color: var(--color-accent);
+  }
+
+  .post-description {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+    margin-top: 0.25rem;
+    line-height: 1.5;
+  }
+
+  .read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.75rem;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .read-more .arrow {
+    transition: transform var(--transition);
+  }
+
+  .post-link:hover .read-more .arrow {
+    transform: translateX(3px);
+  }
+
+  .post-date {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+  }
+
+  /* Note meta */
+  .item-meta {
+    margin-top: 0.75rem;
+    font-size: var(--text-sm);
     color: var(--color-muted);
     display: flex;
     gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
-  .posts-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .posts-list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-  }
-
-  .posts-list time {
-    font-size: 0.875rem;
+  .item-meta a {
     color: var(--color-muted);
-    white-space: nowrap;
   }
 
-  .view-all {
-    display: inline-block;
-    margin-top: 1rem;
-    font-size: 0.875rem;
+  .item-meta a:hover {
+    color: var(--color-accent);
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background: rgba(45, 106, 79, 0.12);
+    color: var(--color-accent);
+    padding: 0.15rem 0.6rem;
+    border-radius: 9999px;
+    font-size: var(--text-xs);
+    font-weight: 500;
+    transition: background var(--transition);
+  }
+
+  .tag:hover {
+    background: rgba(45, 106, 79, 0.2);
   }
 </style>

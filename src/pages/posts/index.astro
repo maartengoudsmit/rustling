@@ -37,30 +37,42 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 
 <style>
   h1 {
-    font-size: 1.75rem;
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 600;
     margin-bottom: 0.25rem;
+    color: var(--color-text);
   }
 
   .subtitle {
-    color: var(--color-muted);
-    margin-bottom: 2rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 2.5rem;
+    font-size: var(--text-lg);
   }
 
   .empty {
     color: var(--color-muted);
+    font-style: italic;
   }
 
   .posts-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
 
   .posts-list li {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    padding: 1rem 1.25rem;
+    border-left: 3px solid var(--color-post);
+    transition: background var(--transition);
+  }
+
+  .posts-list li:hover {
+    background: rgba(90, 125, 90, 0.04);
   }
 
   .posts-list a {
@@ -70,16 +82,26 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   }
 
   .title {
+    font-family: var(--font-heading);
     font-weight: 500;
+    font-size: var(--text-xl);
+    color: var(--color-text);
+    transition: color var(--transition);
+  }
+
+  .posts-list a:hover .title {
+    color: var(--color-accent);
   }
 
   .description {
-    color: var(--color-muted);
-    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+    line-height: 1.5;
   }
 
   time {
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
     color: var(--color-muted);
+    margin-top: 0.25rem;
   }
 </style>
