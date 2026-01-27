@@ -11,6 +11,8 @@ const {
 
 const siteTitle = 'The Rustling of the Leaves';
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+
+
 ---
 
 <!doctype html>
@@ -22,12 +24,12 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍂</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Poppins:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,100..900,50,1&display=swap&family=Poppins:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <title>{fullTitle}</title>
   </head>
   <body>
     <header>
-      <nav>
+      <nav id="topNav">
         <a href="/" class="site-title">{siteTitle}</a>
         <div class="nav-links">
           <a href="/posts">Posts</a>
@@ -36,6 +38,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
       </nav>
     </header>
     <main>
+      <section class="intro">
+        <h1>The Rustling of the Leaves</h1>
+      </section>
       <slot />
     </main>
     <footer>
@@ -72,6 +77,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     --text-xl: 1.25rem;
     --text-2xl: 1.5rem;
     --text-3xl: 1.875rem;
+    --text-4xl: 2.375rem;
 
     /* Spacing & layout */
     --max-width: 640px;
@@ -127,6 +133,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     border-bottom: 1px solid var(--color-border);
     padding: 1.25rem 1rem;
     background: var(--color-bg);
+    position: fixed;
+    width: 100vw;
+    z-index: 1000;
   }
 
   nav {
@@ -142,8 +151,15 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     font-weight: 600;
     font-size: var(--text-lg);
     color: var(--color-text);
-    transition: color var(--transition);
+    opacity: 0;
+    transition: opacity 200ms linear;
   }
+
+  .site-title.visible {
+    opacity: 1;
+    transition: opacity 200ms linear;
+  }
+
 
   .site-title:hover {
     color: var(--color-accent);
@@ -173,6 +189,24 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     width: 100%;
   }
 
+  .intro {
+    margin-top: 2.375rem;
+    margin-bottom: 3rem;
+  }
+
+  .intro h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .intro p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-lg);
+  }
+
   footer {
     position: relative;
     padding: 1.5rem 1rem;
@@ -194,3 +228,28 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     border-radius: 2px;
   }
 </style>
+
+<script>
+
+  const header = document.querySelector<HTMLElement>("header");
+    const navTitle = document.querySelector<HTMLAnchorElement>(".site-title");
+  const options = {
+    root: null,
+  rootMargin: `${0 - header!.offsetHeight}px 0px 0px 0px`,
+  threshold: [0, 0.25, 0.5, 0.75, 1],
+};
+const callback: IntersectionObserverCallback = (entries, _) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) {
+      navTitle!.classList.add("visible");
+    } else {
+      navTitle!.classList.remove("visible");
+    }
+  }
+
+)
+}
+const observer = new IntersectionObserver(callback, options);
+const target = document.querySelector<HTMLHeadingElement>(".intro h1");
+observer.observe(target!);
+</script>
