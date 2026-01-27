@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const notes = (await getCollection('notes'))
@@ -23,7 +23,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
   ) : (
     <ul class="notes-list">
       {notes.map(async (note) => {
-        const { Content } = await note.render();
+        const { Content } = await render(note);
         return (
           <li class="note-item">
             <div class="note-content">
@@ -33,7 +33,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
               <time datetime={note.data.pubDate.toISOString()}>
                 {formatDate(note.data.pubDate)}
               </time>
-              <a href={`/notes/${note.slug}`}>permalink</a>
+              <a href={`/notes/${note.id}`}>permalink</a>
               {note.data.tags.length > 0 && (
                 <div class="tags">
                   {note.data.tags.map((tag) => <span class="tag">#{tag}</span>)}

@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const posts = await getCollection('posts', ({ data }) => !data.draft);
@@ -23,15 +23,10 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 ---
 
 <BaseLayout>
-  <section class="intro">
-    <h1>The Rustling of the Leaves</h1>
-    <p>Thoughts, notes, and longer writings.</p>
-  </section>
-
   <ul class="timeline">
     {timeline.map(async (item) => {
       if (item.type === 'note') {
-        const { Content } = await item.data.render();
+        const { Content } = await render(item.data);
         return (
           <li class="timeline-item note">
             <div class="note-content">
@@ -41,10 +36,10 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
               <time datetime={item.data.data.pubDate.toISOString()}>
                 {formatDate(item.data.data.pubDate)}
               </time>
-              <a href={`/notes/${item.data.slug}`}>permalink</a>
+              <a href={`/notes/${item.data.id}`}>permalink</a>
               {item.data.data.tags.length > 0 && (
                 <span class="tags">
-                  {item.data.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
+                  {item.data.data.tags.map((tag: string) => <span class="tag">#{tag}</span>)}
                 </span>
               )}
             </footer>
@@ -53,7 +48,7 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
       } else {
         return (
           <li class="timeline-item post">
-            <a href={`/posts/${item.data.slug}`} class="post-link">
+            <a href={`/posts/${item.data.id}`} class="post-link">
               <span class="post-title">{item.data.data.title}</span>
               <span class="post-description">{item.data.data.description}</span>
               <span class="read-more">Read article <span class="arrow">→</span></span>
@@ -69,22 +64,6 @@ const formatDate = (date: Date) => date.toLocaleDateString('en-US', {
 </BaseLayout>
 
 <style>
-  .intro {
-    margin-bottom: 3rem;
-  }
-
-  .intro h1 {
-    font-family: var(--font-heading);
-    font-size: var(--text-3xl);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text);
-  }
-
-  .intro p {
-    color: var(--color-text-secondary);
-    font-size: var(--text-lg);
-  }
 
   .timeline {
     list-style: none;
