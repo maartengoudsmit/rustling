@@ -1,0 +1,46 @@
+name: Publish Note via Issue
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+
+jobs:
+  create-post:
+    runs-on: ubuntu-latest
+    # Only run if issue has 'blog-post' label
+    if: contains(github.event.issue.labels.*.name, 'blog-post')
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Convert issue to post
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_LABELS: ${{ toJson(github.event.issue.labels) }}
+          ISSUE_CREATED: ${{ github.event.issue.created_at }}
+        run: |
+          # Create slug from title
+          SLUG=$(echo "$ISSUE_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g' | sed 's/--*/-/g' | sed 's/^-//' | sed 's/-$//')
+          
+          # Extract tags from labels (excluding 'blog-post')
+          TAGS=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '[.[] | select(.name != "blog-post") | .name] | join(", ")')
+          
+          # Create frontmatter
+          cat > "src/content/blog/${SLUG}.md" << EOF
+          ---
+          pubDate: ${ISSUE_CREATED}
+          tags: [${TAGS}]
+          ---
+
+          ${ISSUE_BODY}
+          EOF
+      
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/content/blog/
+          git commit -m "Post: ${{ github.event.issue.title }}" || echo "No changes"
+          git push
