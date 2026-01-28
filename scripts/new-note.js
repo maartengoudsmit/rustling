@@ -2,6 +2,7 @@ import { createInterface } from 'readline';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const NOTES_DIR = join(__dirname, '..', 'src', 'content', 'notes');
@@ -114,6 +115,9 @@ Write your note here...
   console.log();
 
   rl.close();
+
+  // Open the file in micro editor
+  spawn('micro', [filePath], { stdio: 'inherit' });
 }
 
 main().catch((err) => {
