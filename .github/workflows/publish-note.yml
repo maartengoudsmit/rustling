@@ -28,7 +28,7 @@ jobs:
           TAGS=$(echo '${{ toJson(github.event.issue.labels) }}' | jq -r '[.[] | select(.name != "blog-post") | .name] | join(", ")')
           
           # Create frontmatter
-          cat > "src/content/blog/${SLUG}.md" << EOF
+          cat > "src/content/notes/${SLUG}.md" << EOF
           ---
           pubDate: ${ISSUE_CREATED}
           tags: [${TAGS}]
