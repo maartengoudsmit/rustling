@@ -1,7 +1,7 @@
 backend:
   name: github
   repo: maartengoudsmit/rustling
-  branch: decap
+  branch: main
 
 media_folder: '/static/images/uploads'
 public_folder: '/images/uploads'
