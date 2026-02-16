@@ -23,15 +23,15 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	const data = await tokenResponse.json();
 
-	if (data.error) {
-		return new Response(renderMessage('error', data.error_description || data.error), {
+	if (data.error || !data.access_token) {
+		return new Response(renderMessage('error', data.error_description || data.error || 'Missing access token'), {
 			headers: { 'Content-Type': 'text/html' }
 		});
 	}
 
-	const message = JSON.stringify({ token: data.access_token, provider: 'github' });
+	const token = JSON.stringify({ token: data.access_token, provider: 'github' });
 
-	return new Response(renderMessage('success', message), {
+	return new Response(renderMessage('success', token), {
 		headers: { 'Content-Type': 'text/html' }
 	});
 };
@@ -45,7 +45,7 @@ function renderMessage(status: 'success' | 'error', content: string): string {
 (function() {
   if (window.opener) {
     window.opener.postMessage(${escaped}, "*");
-    window.close();
+    setTimeout(function() { window.close(); }, 250);
   }
 })();
 </script>
