@@ -11,5 +11,5 @@
 </script>
 
 <svelte:head>
-	<title>Content Manager</title>
+	<title>The Rustling of the Leaves</title>
 </svelte:head>
