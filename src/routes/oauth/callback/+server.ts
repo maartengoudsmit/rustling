@@ -37,18 +37,16 @@ export const GET: RequestHandler = async ({ url }) => {
 };
 
 function renderMessage(status: 'success' | 'error', content: string): string {
+	const escaped = JSON.stringify(`authorization:github:${status}:${content}`);
 	return `<!DOCTYPE html>
 <html>
 <body>
 <script>
 (function() {
-  function sendMessage(message) {
-    if (window.opener) {
-      window.opener.postMessage(message, "*");
-      window.close();
-    }
+  if (window.opener) {
+    window.opener.postMessage(${escaped}, "*");
+    window.close();
   }
-  sendMessage("authorization:github:${status}:${content}");
 })();
 </script>
 </body>
