@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import matter from 'gray-matter';
 
 type Note = {
@@ -9,17 +7,16 @@ type Note = {
 	tags: string[];
 };
 
-export async function load() {
-	const notesDir = path.join(process.cwd(), 'src/lib/notes');
-	const files = fs.readdirSync(notesDir).filter((f) => f.endsWith('.md'));
+const noteFiles = import.meta.glob('/src/lib/notes/*.md', { query: '?raw', eager: true });
 
-	const notes = files.map((filename) => {
-		const filePath = path.join(notesDir, filename);
-		const fileContents = fs.readFileSync(filePath, 'utf8');
-		const { data, content } = matter(fileContents);
+export async function load() {
+	const notes = Object.entries(noteFiles).map(([filepath, module]) => {
+		const raw = (module as { default: string }).default;
+		const { data, content } = matter(raw);
+		const filename = filepath.split('/').pop()!.replace('.md', '');
 
 		return {
-			slug: filename.replace('.md', ''),
+			slug: filename,
 			...data,
 			content
 		} as Note;
