@@ -1,110 +1,42 @@
-# The Rustling of the Leaves
+# sv
 
-A personal blog built with Astro and MDX.
+Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
-## Tech Stack
+## Creating a project
 
-- **Framework**: [Astro](https://astro.build/) 4.16
-- **Content**: MDX and Markdown
-- **Language**: TypeScript
-- **Styling**: Scoped CSS with CSS variables
+If you're seeing this, you've probably already done this step. Congrats!
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd rustling
-
-# Install dependencies
-npm install
-
-# Copy environment file
-cp .env.example .env.local
+```sh
+# create a new project
+npx sv create my-app
 ```
 
-### Development
+To recreate this project with the same configuration:
 
-```bash
+```sh
+# recreate this project
+pnpm dlx sv create --template minimal --types ts --add prettier eslint --install pnpm decap
+```
+
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+
+```sh
 npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
 ```
 
-The site will be available at `http://localhost:4321`.
+## Building
 
-### Production Build
+To create a production version of your app:
 
-```bash
-npm run build    # Generate static files to dist/
-npm run preview  # Preview the production build
+```sh
+npm run build
 ```
 
-## Project Structure
+You can preview the production build with `npm run preview`.
 
-```
-src/
-├── content/
-│   ├── config.ts       # Content collection schemas
-│   ├── posts/          # Blog posts (MDX)
-│   └── notes/          # Microblog notes (Markdown)
-├── layouts/
-│   ├── BaseLayout.astro
-│   ├── PostLayout.astro
-│   └── NoteLayout.astro
-└── pages/
-    ├── index.astro     # Homepage
-    ├── posts/          # Post listing and detail pages
-    └── notes/          # Note listing and detail pages
-```
-
-## Content
-
-### Posts
-
-Long-form articles written in MDX. Create new posts in `src/content/posts/`.
-
-Frontmatter schema:
-
-```yaml
----
-title: "Post Title"
-description: "A brief description"
-pubDate: 2024-01-15
-updatedDate: 2024-01-16  # optional
-draft: false              # optional, defaults to false
----
-```
-
-### Notes
-
-Short microblog-style entries written in Markdown. Create new notes in `src/content/notes/`.
-
-Frontmatter schema:
-
-```yaml
----
-pubDate: 2024-01-15
-tags: ["thought", "web"]  # optional
----
-```
-
-## Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `SITE_URL` | Production site URL | `http://localhost:4321` |
-
-## Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run preview` | Preview production build |
-| `npm run astro` | Run Astro CLI commands |
+> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
