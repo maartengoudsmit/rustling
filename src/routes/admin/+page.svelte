@@ -5,7 +5,14 @@
 
 	onMount(async () => {
 		if (browser) {
-			CMS.init();
+			CMS.init({
+				config: {
+					backend: {
+						base_url: window.location.origin,
+						auth_endpoint: '/oauth'
+					}
+				}
+			});
 		}
 	});
 </script>
