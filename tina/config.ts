@@ -147,6 +147,13 @@ export default defineConfig({
         },
         fields: [
           {
+            type: "string",
+            name: "topic",
+            label: "Topic",
+            isTitle: true,
+            required: true,
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
