@@ -3,4 +3,5 @@ export default function (eleventyConfig) {
   eleventyConfig.addWatchTarget("./styles/");
   eleventyConfig.addPassthroughCopy("./scripts/");
   eleventyConfig.addWatchTarget("./scripts/");
+  eleventyConfig.addPassthroughCopy("./admin/");
 }
