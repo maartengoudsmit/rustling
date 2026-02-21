@@ -36,6 +36,7 @@ export default defineConfig({
   build: {
     outputFolder: "admin",
     publicFolder: "./",
+    basePath: "rustling",
   },
   media: {
     tina: {
