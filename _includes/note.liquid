@@ -1,0 +1,13 @@
+<article class="timeline-item note">
+  <p class="note-content">{{ note.content }}</p>
+  <div class="item-meta">
+    <a href="{{ note.url }}">{{ note.data.published | date: '%d-%m-%Y %H:%M' }}</a>
+    <div class="tags">
+      {% for tag in note.data.tags %}
+        {% unless tag == 'note' %}
+          <span class="tag">{{ tag }}</span>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</article>
