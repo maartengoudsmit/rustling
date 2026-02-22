@@ -68,10 +68,11 @@ export default defineConfig({
             values: Record<string, any>;
           }) => {
             if (form.crudType === "create") {
+              const now = new Date().toISOString();
               return {
                 ...values,
-                published: new Date().toISOString(),
-                updated: new Date().toISOString(),
+                published: now,
+                updated: now,
               };
             } else {
               return {
@@ -136,10 +137,11 @@ export default defineConfig({
             values: Record<string, any>;
           }) => {
             if (form.crudType === "create") {
+              const now = new Date().toISOString();
               return {
                 ...values,
-                published: new Date().toISOString(),
-                updated: new Date().toISOString(),
+                published: now,
+                updated: now,
               };
             } else {
               return {
