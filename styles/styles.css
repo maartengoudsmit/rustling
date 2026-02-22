@@ -83,7 +83,7 @@ main {
   flex: 1;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 2.5rem 1rem;
+  padding: 1rem;
   width: 100%;
 }
 
@@ -99,6 +99,7 @@ header h1 {
   font-size: var(--text-5xl);
   font-weight: 900;
   letter-spacing: -1px;
+  line-height: 1;
 }
 
 header h1 a {
@@ -107,7 +108,7 @@ header h1 a {
 
 nav {
   max-width: var(--max-width);
-  margin: -0.5rem 1rem 0 1rem;
+  margin: 0.5rem 1rem 0 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
