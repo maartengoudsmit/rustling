@@ -15,5 +15,5 @@ export default {
     },
     addAllPagesToCollection: false,
   },
-  permalink: "/tag/{{ tag | slugify }}/",
+  permalink: "/tag/{{ tag | downcase | slugify }}/",
 };

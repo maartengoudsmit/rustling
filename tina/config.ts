@@ -93,6 +93,9 @@ export default defineConfig({
             name: "tags",
             label: "Tags",
             list: true,
+            ui: {
+              parse: (val: string[]) => val.map((t) => t && t.toLowerCase()),
+            },
           },
           {
             type: "string",
@@ -165,6 +168,9 @@ export default defineConfig({
             name: "tags",
             label: "Tags",
             list: true,
+            ui: {
+              parse: (val: string[]) => val.map((t) => t && t.toLowerCase()),
+            },
           },
           {
             type: "string",
