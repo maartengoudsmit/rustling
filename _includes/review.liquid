@@ -1,13 +1,19 @@
 <article class="timeline-item review">
   <div class="review-main">
-    <img src="{{ review.data.image }}" alt="Poster for {{ review.datatopic }}" width="200">
+    <img src="{{ review.data.image }}" alt="Poster for {{ review.data.topic }}" width="200">
     <div class="review-content">
-      <h2>{{ review.data.topic }}</h2>
+      <h2>
+        <a href="{{ review.page.url }}">{{ review.data.topic }}</a>
+      </h2>
       {{ review.content }}
+      <p class="review-link">🔗 {% hostname review.data.url %}</p>
     </div>
   </div>
   <div class="item-meta">
-    <a href="{{ review.url }}">{{ review.data.published | date: '%d-%m-%Y %H:%M' }}</a>
+    <a href="{{ review.page.url }}">{{ review.data.published | date: '%d-%m-%Y' }}</a>
+    {%- if review.data.published != review.data.updated -%}
+      (last updated: {{ review.data.updated | date: '%d-%m-%Y %H:%M' }})
+    {%- endif -%}
     <div class="tags">
       {% for tag in review.data.tags %}
         {% unless tag == 'review' %}

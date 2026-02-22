@@ -14,7 +14,7 @@
 
   /* Typography */
   --font-heading: "Fraunces", Georgia, serif;
-  --font-body: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "National Park", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
 
   /* Type scale */
@@ -71,12 +71,19 @@ a {
 
 a:hover {
   color: var(--color-accent-hover);
+  text-decoration: underline;
 }
 
 a:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+h2 {
+  font-family: var(--font-body);
+  font-size: var(--text-2xl);
+  font-weight: 700;
 }
 
 main {
@@ -105,6 +112,9 @@ header h1 {
 header h1 a {
   color: var(--color-text);
 }
+header h1 a:hover {
+  text-decoration: none;
+}
 
 nav {
   max-width: var(--max-width);
@@ -121,7 +131,7 @@ nav {
 }
 
 .nav-links a {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   font-weight: 400;
   color: var(--color-text-secondary);
   transition: color var(--transition);
@@ -129,6 +139,7 @@ nav {
 
 .nav-links a:hover {
   color: var(--color-accent);
+  text-decoration: none;
 }
 
 #wobbly-divider svg {
@@ -192,13 +203,17 @@ nav {
   margin: 0 1rem 0 0;
 }
 
+.review-link {
+  margin-top: 1rem;
+}
+
 /* Meta */
 .item-meta {
   margin-top: 0.75rem;
   font-size: var(--text-sm);
   color: var(--color-muted);
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -229,4 +244,8 @@ nav {
 
 .tag:hover {
   background: rgba(45, 106, 79, 0.2);
+}
+
+.tag a:hover {
+  text-decoration: none;
 }
