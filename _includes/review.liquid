@@ -1,0 +1,19 @@
+<article class="timeline-item review">
+  <div class="review-main">
+    <img src="{{ review.data.image }}" alt="Poster for {{ review.datatopic }}" width="200">
+    <div class="review-content">
+      <h2>{{ review.data.topic }}</h2>
+      {{ review.content }}
+    </div>
+  </div>
+  <div class="item-meta">
+    <a href="{{ review.url }}">{{ review.data.published | date: '%d-%m-%Y %H:%M' }}</a>
+    <div class="tags">
+      {% for tag in review.data.tags %}
+        {% unless tag == 'review' %}
+          <span class="tag">{{ tag }}</span>
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</article>

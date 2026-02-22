@@ -30,6 +30,7 @@
 
   /* Spacing & layout */
   --max-width: 640px;
+  --oversize: 720px;
   --radius-sm: 4px;
   --radius-md: 8px;
   --shadow-sm: 2px 2px 5px rgba(45, 59, 45, 0.08);
@@ -146,6 +147,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  align-items: center;
 }
 
 .timeline-item {
@@ -159,6 +161,7 @@ nav {
   background: var(--color-bg-secondary);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border);
+  width: var(--max-width);
 }
 
 /* Notes */
@@ -174,7 +177,19 @@ nav {
   margin-bottom: 0;
 }
 
-/* Note meta */
+/* Review */
+
+.review-main {
+  display: flex;
+  width: var(--oversize);
+  gap: 1rem;
+}
+
+.review-main img {
+  width: 200px;
+}
+
+/* Meta */
 .item-meta {
   margin-top: 0.75rem;
   font-size: var(--text-sm);
