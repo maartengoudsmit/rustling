@@ -169,7 +169,7 @@ export default defineConfig({
           {
             type: "string",
             name: "url",
-            label: "URL",
+            label: "Link",
           },
           {
             type: "string",
