@@ -117,6 +117,7 @@ nav {
 .nav-links {
   gap: 1rem;
   display: flex;
+  z-index: 1;
 }
 
 .nav-links a {
