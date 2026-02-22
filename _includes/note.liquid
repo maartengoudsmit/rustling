@@ -5,7 +5,9 @@
     <div class="tags">
       {% for tag in note.data.tags %}
         {% unless tag == 'note' %}
-          <span class="tag">{{ tag }}</span>
+          <span class="tag"
+            ><a href="/tag/{{ tag | slugify }}">{{ tag }}</a></span
+          >
         {% endunless %}
       {% endfor %}
     </div>
