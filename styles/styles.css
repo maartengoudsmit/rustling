@@ -161,7 +161,7 @@ nav {
   background: var(--color-bg-secondary);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-border);
-  width: var(--max-width);
+  width: min(var(--max-width), 90vw);
 }
 
 /* Notes */
@@ -180,13 +180,14 @@ nav {
 /* Review */
 
 .review-main {
-  display: flex;
-  width: var(--oversize);
+  width: min(var(--oversize), 95vw);
   gap: 1rem;
 }
 
 .review-main img {
   width: 200px;
+  float: inline-start;
+  margin: 0 1rem 0 0;
 }
 
 /* Meta */
