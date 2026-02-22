@@ -48,10 +48,11 @@ var config_default = defineConfig({
             values
           }) => {
             if (form.crudType === "create") {
+              const now = (/* @__PURE__ */ new Date()).toISOString();
               return {
                 ...values,
-                published: (/* @__PURE__ */ new Date()).toISOString(),
-                updated: (/* @__PURE__ */ new Date()).toISOString()
+                published: now,
+                updated: now
               };
             } else {
               return {
@@ -112,10 +113,11 @@ var config_default = defineConfig({
             values
           }) => {
             if (form.crudType === "create") {
+              const now = (/* @__PURE__ */ new Date()).toISOString();
               return {
                 ...values,
-                published: (/* @__PURE__ */ new Date()).toISOString(),
-                updated: (/* @__PURE__ */ new Date()).toISOString()
+                published: now,
+                updated: now
               };
             } else {
               return {
