@@ -1,0 +1,18 @@
+fragment NotesParts on Notes {
+  __typename
+  body
+  tags
+  published
+  updated
+}
+
+fragment ReviewsParts on Reviews {
+  __typename
+  topic
+  body
+  tags
+  url
+  image
+  published
+  updated
+}
