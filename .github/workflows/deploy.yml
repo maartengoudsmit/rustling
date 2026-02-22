@@ -17,9 +17,13 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      content_only: ${{ steps.changes.outputs.content_only }}
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - uses: actions/setup-node@v4
         with:
@@ -29,12 +33,23 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build site
+      - name: Check if content-only change
+        id: changes
+        run: |
+          NON_CONTENT=$(git diff --name-only HEAD~1 HEAD | grep -cv '^content/' || true)
+          echo "content_only=$([ "$NON_CONTENT" -eq 0 ] && echo true || echo false)" >> $GITHUB_OUTPUT
+
+      - name: Build site (full)
+        if: steps.changes.outputs.content_only == 'false'
         env:
           NEXT_PUBLIC_TINA_CLIENT_ID: ${{ secrets.TINA_CLIENT_ID }}
           TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
           GITHUB_BRANCH: ${{ github.ref_name }}
         run: npm run build
+
+      - name: Build site (Eleventy only)
+        if: steps.changes.outputs.content_only == 'true'
+        run: mkdir -p admin && npx eleventy
 
       - name: Deploy blog to Neocities
         uses: bcomnes/deploy-to-neocities@v2
@@ -44,12 +59,14 @@ jobs:
           dist_dir: _site
 
       - name: Upload admin to GitHub Pages
+        if: steps.changes.outputs.content_only == 'false'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
   deploy-admin:
     needs: build
+    if: needs.build.outputs.content_only == 'false'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
