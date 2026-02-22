@@ -144,19 +144,12 @@ type Reviews implements Node & Document {
   _values: JSON!
 }
 
-input ImageFilter {
-  startsWith: String
-  eq: String
-  exists: Boolean
-  in: [String]
-}
-
 input ReviewsFilter {
   topic: StringFilter
   body: RichTextFilter
   tags: StringFilter
   url: StringFilter
-  image: ImageFilter
+  image: StringFilter
   published: StringFilter
   updated: StringFilter
 }

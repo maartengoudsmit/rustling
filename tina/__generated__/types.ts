@@ -241,19 +241,12 @@ export type Reviews = Node & Document & {
   _values: Scalars['JSON']['output'];
 };
 
-export type ImageFilter = {
-  startsWith?: InputMaybe<Scalars['String']['input']>;
-  eq?: InputMaybe<Scalars['String']['input']>;
-  exists?: InputMaybe<Scalars['Boolean']['input']>;
-  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-};
-
 export type ReviewsFilter = {
   topic?: InputMaybe<StringFilter>;
   body?: InputMaybe<RichTextFilter>;
   tags?: InputMaybe<StringFilter>;
   url?: InputMaybe<StringFilter>;
-  image?: InputMaybe<ImageFilter>;
+  image?: InputMaybe<StringFilter>;
   published?: InputMaybe<StringFilter>;
   updated?: InputMaybe<StringFilter>;
 };
