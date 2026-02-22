@@ -3,7 +3,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - 11ty
+      - main
 
 permissions:
   contents: read
