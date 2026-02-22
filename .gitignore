@@ -4,3 +4,4 @@ admin/
 .cache/
 .env
 .claude/
+tina/__generated__/

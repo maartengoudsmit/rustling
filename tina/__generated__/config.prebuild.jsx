@@ -72,7 +72,10 @@ var config_default = defineConfig({
             type: "string",
             name: "tags",
             label: "Tags",
-            list: true
+            list: true,
+            ui: {
+              parse: (val) => val.map((t) => t && t.toLowerCase())
+            }
           },
           {
             type: "string",
@@ -140,7 +143,10 @@ var config_default = defineConfig({
             type: "string",
             name: "tags",
             label: "Tags",
-            list: true
+            list: true,
+            ui: {
+              parse: (val) => val.map((t) => t && t.toLowerCase())
+            }
           },
           {
             type: "string",
