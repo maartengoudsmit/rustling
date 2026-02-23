@@ -1,6 +1,6 @@
 <article class="timeline-item photo">
   <div class="photo-main">
-    <img src="{{ photo.data.image }}" alt="{{ photo.content }}" width="640">
+    <img src="{{ photo.data.image }}" alt="{{ photo.content }}" eleventy:widths="640">
     <p>{{ photo.content }}</p>
     <div class="item-meta">
       <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
