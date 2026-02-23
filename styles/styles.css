@@ -1,5 +1,5 @@
 :root {
-  /* Totoro-inspired color palette */
+  /* Color palette */
   --color-bg: #f8f8f6;
   --color-bg-secondary: #ebe7dc;
   --color-text: #2d3b2d;
@@ -13,9 +13,12 @@
   --color-code-bg: #1e2d24;
 
   /* Typography */
-  --font-heading: "Fraunces", Georgia, serif;
-  --font-body: "National Park", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-heading: "Cabin", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: "Cabin", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  --font-handwritten: "Playwrite DE Grund", "Cabin", -apple-system,
+    BlinkMacSystemFont, sans-serif;
 
   /* Type scale */
   --text-xs: 0.75rem;
@@ -27,6 +30,7 @@
   --text-3xl: 1.875rem;
   --text-4xl: 2.375rem;
   --text-5xl: 3rem;
+  --text-display: 4rem;
 
   /* Spacing & layout */
   --max-width: 640px;
@@ -50,6 +54,7 @@ html {
 
 body {
   font-family: var(--font-body);
+  font-size: var(--text-base);
   color: var(--color-text);
   background: var(--color-bg);
   line-height: 1.6;
@@ -80,14 +85,47 @@ a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 900;
+  font-style: italic;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+h1 a {
+  color: var(--color-text);
+}
+h1 a:hover {
+  text-decoration: none;
+}
+
 h2 {
-  font-family: var(--font-body);
+  font-family: var(--font-heading);
   font-size: var(--text-2xl);
-  font-weight: 700;
+  font-weight: 600;
+  font-style: normal;
+  margin-bottom: 0.5rem;
+}
+
+h2 a:hover {
+  text-decoration: none;
+}
+
+h2 a:hover::after {
+  content: " ♾️";
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  font-weight: 600;
 }
 
 main {
-  flex: 1;
+  /* flex: 1; */
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 1rem;
@@ -99,21 +137,6 @@ header {
   background: var(--color-bg-secondary);
   display: flex;
   justify-content: center;
-}
-
-header h1 {
-  font-family: var(--font-heading);
-  font-size: var(--text-5xl);
-  font-weight: 900;
-  letter-spacing: -1px;
-  line-height: 1;
-}
-
-header h1 a {
-  color: var(--color-text);
-}
-header h1 a:hover {
-  text-decoration: none;
 }
 
 nav {
@@ -156,7 +179,6 @@ nav {
 }
 
 .timeline {
-  list-style: none;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -166,7 +188,6 @@ nav {
 .timeline-item {
   padding: 1.25rem;
   border-radius: var(--radius-md);
-  transition: box-shadow var(--transition), transform var(--transition);
 }
 
 /* Notes - card style */
@@ -194,6 +215,7 @@ nav {
   padding: 0.5rem;
   border-radius: var(--radius-sm);
   margin-bottom: 1rem;
+  overflow-x: scroll;
 }
 
 /* Review */
@@ -224,6 +246,11 @@ nav {
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-md);
   width: min(var(--max-width), 90vw);
+}
+
+.photo-main .photo-caption p {
+  font-family: var(--font-handwritten);
+  font-weight: 300;
 }
 
 .photo-main img {
