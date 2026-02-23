@@ -1,18 +1,22 @@
-<article class="timeline-item note">
-  <p class="note-content">{{ note.content }}</p>
-  <div class="item-meta">
-    <a href="{{ note.url }}">{{ note.data.published | relative_date }}</a>
-    {%- if note.data.published != note.data.updated -%}
-      (last updated: {{ note.data.updated | relative_date }})
-    {%- endif -%}
-    <div class="tags">
-      {% for tag in note.data.tags %}
-        {% unless tag == 'note' %}
-          <span class="tag"
-            ><a href="/tag/{{ tag | slugify }}">{{ tag }}</a></span
-          >
-        {% endunless %}
-      {% endfor %}
+<article class="timeline-item photo">
+  <div class="photo-main">
+    <img src="{{ photo.data.image }}" alt="{{ photo.content }}" width="640">
+    <p>{{ photo.content }}</p>
+    <div class="item-meta">
+      <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
+      {%- if photo.data.published != photo.data.updated -%}
+        (last updated: {{ photo.data.updated | relative_date }})
+      {%- endif -%}
+      <div class="tags">
+        {% for tag in photo.data.tags %}
+          {% unless tag == 'photo' %}
+            <span class="tag"
+              ><a href="/tag/{{ tag | slugify }}">{{ tag }}</a></span
+            >
+          {% endunless %}
+        {% endfor %}
+      </div>
+      <span class="camera">📷 {{ photo.data.camera }}</span>
     </div>
   </div>
 </article>

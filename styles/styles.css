@@ -207,6 +207,19 @@ nav {
   margin-top: 1rem;
 }
 
+/* Photo */
+
+.photo-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
 /* Meta */
 .item-meta {
   margin-top: 0.75rem;
