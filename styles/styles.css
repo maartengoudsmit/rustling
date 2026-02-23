@@ -182,12 +182,18 @@ nav {
   line-height: 1.7;
 }
 
-.note-content :global(p) {
-  margin-bottom: 0.5rem;
+.note-content p {
+  margin-bottom: 1rem;
 }
 
-.note-content :global(p:last-child) {
+.note-content p:last-child {
   margin-bottom: 0;
+}
+
+.note-content pre {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
 }
 
 /* Review */

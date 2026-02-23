@@ -6,6 +6,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./scripts/");
   eleventyConfig.addWatchTarget("./scripts/");
   eleventyConfig.addPassthroughCopy("./admin/");
+  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
     formats: ["avif", "jpeg"],
   });
