@@ -1,7 +1,7 @@
 <article class="timeline-item photo">
   <div class="photo-main">
     <img src="{{ photo.data.image }}" alt="{{ photo.content }}" eleventy:widths="640">
-    <p>{{ photo.content }}</p>
+    <div class="photo-caption">{{ photo.content }}</div>
     <div class="item-meta">
       <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
       {%- if photo.data.published != photo.data.updated -%}
