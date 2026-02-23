@@ -17,7 +17,7 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("relative_date", (input) => {
-    const difference = new Date(input) - Date.now();
+    const diff = new Date(input) - Date.now();
     const rel = new Intl.RelativeTimeFormat("en", {
       style: "long",
       numeric: "auto",
