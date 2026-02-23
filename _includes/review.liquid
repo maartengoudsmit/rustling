@@ -10,9 +10,9 @@
     </div>
   </div>
   <div class="item-meta">
-    <a href="{{ review.page.url }}">{{ review.data.published | date: '%d-%m-%Y' }}</a>
+    <a href="{{ review.page.url }}">posted {{ review.data.published | relative_date }}</a>
     {%- if review.data.published != review.data.updated -%}
-      (last updated: {{ review.data.updated | date: '%d-%m-%Y %H:%M' }})
+      (last updated: {{ review.data.updated | relative_date }})
     {%- endif -%}
     <div class="tags">
       {% for tag in review.data.tags %}
