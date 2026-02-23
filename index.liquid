@@ -3,7 +3,7 @@ layout: base.liquid
 ---
 <div class="timeline">
   {% comment %} Displaying in reverse chronological order {% endcomment %}
-  {% assign posts = collections.all | reverse %}
+  {% assign posts = collections.all | sort: 'data.published' | reverse %}
   {% for post in posts %}
     {% if post.data.tags contains 'note' %}
       {% render 'note' with post as note %}
