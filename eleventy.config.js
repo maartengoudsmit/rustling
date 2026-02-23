@@ -6,7 +6,9 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./scripts/");
   eleventyConfig.addWatchTarget("./scripts/");
   eleventyConfig.addPassthroughCopy("./admin/");
-  eleventyConfig.addPlugin(eleventyImageTransformPlugin);
+  eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
+    formats: ["avif", "jpeg"],
+  });
   eleventyConfig.addShortcode("hostname", function (url) {
     const hostname = new URL(url).hostname.replace("www.", "");
     return `<a href="${url}">${hostname}</a>`;
