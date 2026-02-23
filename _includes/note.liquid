@@ -1,8 +1,8 @@
 <article class="timeline-item note">
   {% if note.data.title %}
-    <a href="{{ note.url }}">
-      <h2 class="note-title">{{ note.data.title }}</h2>
-    </a>
+    <h2 class="note-title">
+      <a href="{{ note.url }}">{{ note.data.title }}</a>
+    </h2>
   {% endif %}
   <div class="note-content">{{ note.content }}</div>
   <div class="item-meta">
