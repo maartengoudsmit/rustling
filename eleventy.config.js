@@ -1,4 +1,5 @@
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./styles/");
@@ -16,27 +17,23 @@ export default function (eleventyConfig) {
   });
 
   eleventyConfig.addFilter("relative_date", (input) => {
-    const date = new Date(input);
-    const pastDate = new Date(date);
-    const difference = pastDate - Date.now();
+    const difference = new Date(input) - Date.now();
     const rel = new Intl.RelativeTimeFormat("en", {
       style: "long",
       numeric: "auto",
     });
-    const relString = (formatter, value, unit) =>
-      `${formatter.format(Math.round(value), unit)}`;
 
-    const seconds = difference / 1000;
-    const minutes = seconds / 60;
-    const hours = minutes / 60;
-    const days = hours / 24;
-    const weeks = days / 7;
-    const years = days / 365;
+    const units = [
+      { unit: "year", ms: 1000 * 60 * 60 * 24 * 365 },
+      { unit: "week", ms: 1000 * 60 * 60 * 24 * 7 },
+      { unit: "day", ms: 1000 * 60 * 60 * 24 },
+      { unit: "hour", ms: 1000 * 60 * 60 },
+      { unit: "minute", ms: 1000 * 60 },
+    ];
 
-    if (years < -1) return relString(rel, years, "year");
-    else if (weeks < -1) return relString(rel, weeks, "week");
-    else if (days < -1) return relString(rel, days, "day");
-    else if (hours < -1) return relString(rel, hours, "hour");
-    else return relString(rel, minutes, "minute");
+    // Find the largest time unit that exceeds the corresponding ms thresholds
+    const { unit, ms } =
+      units.find(({ ms }) => Math.abs(diff) >= ms) ?? units.at(-1);
+    return rel.format(Math.round(diff / ms), unit);
   });
 }
