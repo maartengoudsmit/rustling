@@ -81,6 +81,11 @@ export default defineConfig({
         },
         fields: [
           {
+            type: "string",
+            name: "title",
+            label: "Title",
+          },
+          {
             type: "rich-text",
             name: "body",
             label: "Body",
