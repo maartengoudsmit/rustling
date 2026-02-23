@@ -1,9 +1,11 @@
 <article class="timeline-item note">
-  <p class="note-content">{{ note.content }}</p>
+  {% if note.data.title %}
+    <a href="{{ note.url }}">
+      <h2 class="note-title">{{ note.data.title }}</h2>
+    </a>
+  {% endif %}
+  <div class="note-content">{{ note.content }}</div>
   <div class="item-meta">
-    {% if title %}
-      <h2>{{ note.title }}</h2>
-    {% endif %}
     <a href="{{ note.url }}">{{ note.data.published | relative_date }}</a>
     {%- if note.data.published != note.data.updated -%}
       (last updated: {{ note.data.updated | relative_date }})
