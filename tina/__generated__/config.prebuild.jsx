@@ -13,9 +13,7 @@ function getFormattedDate(prefix) {
 }
 var config_default = defineConfig({
   branch,
-  // Get this from tina.io
   clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  // Get this from tina.io
   token: process.env.TINA_TOKEN,
   build: {
     outputFolder: "admin",
@@ -159,6 +157,87 @@ var config_default = defineConfig({
             type: "string",
             name: "image",
             label: "Image URL"
+          },
+          {
+            type: "string",
+            name: "published",
+            label: "Published",
+            ui: {
+              component: null
+            }
+          },
+          {
+            type: "string",
+            name: "updated",
+            label: "Updated",
+            ui: {
+              component: null
+            }
+          }
+        ]
+      },
+      {
+        name: "photos",
+        format: "md",
+        label: "Photos",
+        path: "content/photos",
+        ui: {
+          filename: {
+            slugify(values, meta) {
+              return getFormattedDate("p");
+            }
+          },
+          beforeSubmit: async ({
+            form,
+            cms,
+            values
+          }) => {
+            if (form.crudType === "create") {
+              const now = (/* @__PURE__ */ new Date()).toISOString();
+              return {
+                ...values,
+                published: now,
+                updated: now
+              };
+            } else {
+              return {
+                ...values,
+                updated: (/* @__PURE__ */ new Date()).toISOString()
+              };
+            }
+          }
+        },
+        fields: [
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Body",
+            isBody: true
+          },
+          {
+            type: "string",
+            name: "tags",
+            label: "Tags",
+            list: true,
+            ui: {
+              parse: (val) => val.map((t) => t && t.toLowerCase())
+            }
+          },
+          {
+            type: "image",
+            name: "image",
+            label: "Image",
+            required: true
+          },
+          {
+            type: "string",
+            name: "location",
+            label: "Location"
+          },
+          {
+            type: "string",
+            name: "camera",
+            label: "Camera"
           },
           {
             type: "string",

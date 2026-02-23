@@ -16,3 +16,14 @@ fragment ReviewsParts on Reviews {
   published
   updated
 }
+
+fragment PhotosParts on Photos {
+  __typename
+  body
+  tags
+  image
+  location
+  camera
+  published
+  updated
+}

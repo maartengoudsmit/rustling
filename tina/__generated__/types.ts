@@ -86,6 +86,8 @@ export type Query = {
   notesConnection: NotesConnection;
   reviews: Reviews;
   reviewsConnection: ReviewsConnection;
+  photos: Photos;
+  photosConnection: PhotosConnection;
 };
 
 
@@ -139,9 +141,25 @@ export type QueryReviewsConnectionArgs = {
   filter?: InputMaybe<ReviewsFilter>;
 };
 
+
+export type QueryPhotosArgs = {
+  relativePath?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryPhotosConnectionArgs = {
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PhotosFilter>;
+};
+
 export type DocumentFilter = {
   notes?: InputMaybe<NotesFilter>;
   reviews?: InputMaybe<ReviewsFilter>;
+  photos?: InputMaybe<PhotosFilter>;
 };
 
 export type DocumentConnectionEdges = {
@@ -181,7 +199,7 @@ export type CollectionDocumentsArgs = {
   folder?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type DocumentNode = Notes | Reviews | Folder;
+export type DocumentNode = Notes | Reviews | Photos | Folder;
 
 export type Notes = Node & Document & {
   __typename?: 'Notes';
@@ -264,6 +282,50 @@ export type ReviewsConnection = Connection & {
   edges?: Maybe<Array<Maybe<ReviewsConnectionEdges>>>;
 };
 
+export type Photos = Node & Document & {
+  __typename?: 'Photos';
+  body?: Maybe<Scalars['JSON']['output']>;
+  tags?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  image: Scalars['String']['output'];
+  location?: Maybe<Scalars['String']['output']>;
+  camera?: Maybe<Scalars['String']['output']>;
+  published?: Maybe<Scalars['String']['output']>;
+  updated?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  _sys: SystemInfo;
+  _values: Scalars['JSON']['output'];
+};
+
+export type ImageFilter = {
+  startsWith?: InputMaybe<Scalars['String']['input']>;
+  eq?: InputMaybe<Scalars['String']['input']>;
+  exists?: InputMaybe<Scalars['Boolean']['input']>;
+  in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+};
+
+export type PhotosFilter = {
+  body?: InputMaybe<RichTextFilter>;
+  tags?: InputMaybe<StringFilter>;
+  image?: InputMaybe<ImageFilter>;
+  location?: InputMaybe<StringFilter>;
+  camera?: InputMaybe<StringFilter>;
+  published?: InputMaybe<StringFilter>;
+  updated?: InputMaybe<StringFilter>;
+};
+
+export type PhotosConnectionEdges = {
+  __typename?: 'PhotosConnectionEdges';
+  cursor: Scalars['String']['output'];
+  node?: Maybe<Photos>;
+};
+
+export type PhotosConnection = Connection & {
+  __typename?: 'PhotosConnection';
+  pageInfo: PageInfo;
+  totalCount: Scalars['Float']['output'];
+  edges?: Maybe<Array<Maybe<PhotosConnectionEdges>>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   addPendingDocument: DocumentNode;
@@ -275,6 +337,8 @@ export type Mutation = {
   createNotes: Notes;
   updateReviews: Reviews;
   createReviews: Reviews;
+  updatePhotos: Photos;
+  createPhotos: Photos;
 };
 
 
@@ -334,15 +398,29 @@ export type MutationCreateReviewsArgs = {
   params: ReviewsMutation;
 };
 
+
+export type MutationUpdatePhotosArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PhotosMutation;
+};
+
+
+export type MutationCreatePhotosArgs = {
+  relativePath: Scalars['String']['input'];
+  params: PhotosMutation;
+};
+
 export type DocumentUpdateMutation = {
   notes?: InputMaybe<NotesMutation>;
   reviews?: InputMaybe<ReviewsMutation>;
+  photos?: InputMaybe<PhotosMutation>;
   relativePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type DocumentMutation = {
   notes?: InputMaybe<NotesMutation>;
   reviews?: InputMaybe<ReviewsMutation>;
+  photos?: InputMaybe<PhotosMutation>;
 };
 
 export type NotesMutation = {
@@ -362,9 +440,21 @@ export type ReviewsMutation = {
   updated?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type PhotosMutation = {
+  body?: InputMaybe<Scalars['JSON']['input']>;
+  tags?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  image?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
+  camera?: InputMaybe<Scalars['String']['input']>;
+  published?: InputMaybe<Scalars['String']['input']>;
+  updated?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type NotesPartsFragment = { __typename: 'Notes', body?: any | null, tags?: Array<string | null> | null, published?: string | null, updated?: string | null };
 
 export type ReviewsPartsFragment = { __typename: 'Reviews', topic: string, body?: any | null, tags?: Array<string | null> | null, url?: string | null, image?: string | null, published?: string | null, updated?: string | null };
+
+export type PhotosPartsFragment = { __typename: 'Photos', body?: any | null, tags?: Array<string | null> | null, image: string, location?: string | null, camera?: string | null, published?: string | null, updated?: string | null };
 
 export type NotesQueryVariables = Exact<{
   relativePath: Scalars['String']['input'];
@@ -404,6 +494,25 @@ export type ReviewsConnectionQueryVariables = Exact<{
 
 export type ReviewsConnectionQuery = { __typename?: 'Query', reviewsConnection: { __typename?: 'ReviewsConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'ReviewsConnectionEdges', cursor: string, node?: { __typename: 'Reviews', id: string, topic: string, body?: any | null, tags?: Array<string | null> | null, url?: string | null, image?: string | null, published?: string | null, updated?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
 
+export type PhotosQueryVariables = Exact<{
+  relativePath: Scalars['String']['input'];
+}>;
+
+
+export type PhotosQuery = { __typename?: 'Query', photos: { __typename: 'Photos', id: string, body?: any | null, tags?: Array<string | null> | null, image: string, location?: string | null, camera?: string | null, published?: string | null, updated?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } };
+
+export type PhotosConnectionQueryVariables = Exact<{
+  before?: InputMaybe<Scalars['String']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Float']['input']>;
+  last?: InputMaybe<Scalars['Float']['input']>;
+  sort?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<PhotosFilter>;
+}>;
+
+
+export type PhotosConnectionQuery = { __typename?: 'Query', photosConnection: { __typename?: 'PhotosConnection', totalCount: number, pageInfo: { __typename?: 'PageInfo', hasPreviousPage: boolean, hasNextPage: boolean, startCursor: string, endCursor: string }, edges?: Array<{ __typename?: 'PhotosConnectionEdges', cursor: string, node?: { __typename: 'Photos', id: string, body?: any | null, tags?: Array<string | null> | null, image: string, location?: string | null, camera?: string | null, published?: string | null, updated?: string | null, _sys: { __typename?: 'SystemInfo', filename: string, basename: string, hasReferences?: boolean | null, breadcrumbs: Array<string>, path: string, relativePath: string, extension: string } } | null } | null> | null } };
+
 export const NotesPartsFragmentDoc = gql`
     fragment NotesParts on Notes {
   __typename
@@ -421,6 +530,18 @@ export const ReviewsPartsFragmentDoc = gql`
   tags
   url
   image
+  published
+  updated
+}
+    `;
+export const PhotosPartsFragmentDoc = gql`
+    fragment PhotosParts on Photos {
+  __typename
+  body
+  tags
+  image
+  location
+  camera
   published
   updated
 }
@@ -539,6 +660,63 @@ export const ReviewsConnectionDocument = gql`
   }
 }
     ${ReviewsPartsFragmentDoc}`;
+export const PhotosDocument = gql`
+    query photos($relativePath: String!) {
+  photos(relativePath: $relativePath) {
+    ... on Document {
+      _sys {
+        filename
+        basename
+        hasReferences
+        breadcrumbs
+        path
+        relativePath
+        extension
+      }
+      id
+    }
+    ...PhotosParts
+  }
+}
+    ${PhotosPartsFragmentDoc}`;
+export const PhotosConnectionDocument = gql`
+    query photosConnection($before: String, $after: String, $first: Float, $last: Float, $sort: String, $filter: PhotosFilter) {
+  photosConnection(
+    before: $before
+    after: $after
+    first: $first
+    last: $last
+    sort: $sort
+    filter: $filter
+  ) {
+    pageInfo {
+      hasPreviousPage
+      hasNextPage
+      startCursor
+      endCursor
+    }
+    totalCount
+    edges {
+      cursor
+      node {
+        ... on Document {
+          _sys {
+            filename
+            basename
+            hasReferences
+            breadcrumbs
+            path
+            relativePath
+            extension
+          }
+          id
+        }
+        ...PhotosParts
+      }
+    }
+  }
+}
+    ${PhotosPartsFragmentDoc}`;
 export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R>
   export function getSdk<C>(requester: Requester<C>) {
     return {
@@ -553,6 +731,12 @@ export type Requester<C= {}> = <R, V>(doc: DocumentNode, vars?: V, options?: C) 
       },
     reviewsConnection(variables?: ReviewsConnectionQueryVariables, options?: C): Promise<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}> {
         return requester<{data: ReviewsConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: ReviewsConnectionQueryVariables, query: string}, ReviewsConnectionQueryVariables>(ReviewsConnectionDocument, variables, options);
+      },
+    photos(variables: PhotosQueryVariables, options?: C): Promise<{data: PhotosQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PhotosQueryVariables, query: string}> {
+        return requester<{data: PhotosQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PhotosQueryVariables, query: string}, PhotosQueryVariables>(PhotosDocument, variables, options);
+      },
+    photosConnection(variables?: PhotosConnectionQueryVariables, options?: C): Promise<{data: PhotosConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PhotosConnectionQueryVariables, query: string}> {
+        return requester<{data: PhotosConnectionQuery, errors?: { message: string, locations: { line: number, column: number }[], path: string[] }[], variables: PhotosConnectionQueryVariables, query: string}, PhotosConnectionQueryVariables>(PhotosConnectionDocument, variables, options);
       }
     };
   }
