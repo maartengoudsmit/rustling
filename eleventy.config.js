@@ -26,7 +26,8 @@ export default function (eleventyConfig) {
     )}</span>`;
   });
 
-  // Wraps the text in
+  // Wraps text in a div element with a custom class name
+  // The div element can optionally be another element (e.g. h2)
   eleventyConfig.addFilter("class", (content, className, element = "div") => {
     return `<${element} class="${className}">${content}</${element}>`;
   });
