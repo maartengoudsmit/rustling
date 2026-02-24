@@ -23,6 +23,8 @@ const relativeDate = (input) => {
 const updateRelativeDate = () => {
   const elements = document.querySelectorAll(".relative-date");
   elements.forEach((el) => {
+    // The relative_data filter bakes the date for each post into
+    // the span element as data-date
     el.textContent = relativeDate(el.dataset.date);
   });
 };
