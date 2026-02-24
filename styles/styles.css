@@ -32,6 +32,10 @@
   --text-5xl: 3rem;
   --text-display: 4rem;
 
+  @media screen and (width <= 600px) {
+    --text-display: 3rem;
+  }
+
   /* Spacing & layout */
   --max-width: 640px;
   --oversize: 720px;
@@ -131,7 +135,9 @@ main {
 }
 
 header {
-  padding: 1rem 1rem 0 1rem;
+  padding-top: calc(env(safe-area-inset-top) + 1rem);
+  padding-left: 1rem;
+  padding-right: 1rem;
   background: var(--color-bg-secondary);
   display: flex;
   justify-content: center;
