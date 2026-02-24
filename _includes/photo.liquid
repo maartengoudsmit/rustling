@@ -2,20 +2,20 @@
   <div class="photo-main">
     <img src="{{ photo.data.image }}" alt="{{ photo.content }}" eleventy:widths="640">
     <div class="photo-caption">{{ photo.content }}</div>
-    <div class="item-meta">
-      <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
-      {%- if photo.data.published != photo.data.updated -%}
-        (last updated: {{ photo.data.updated | relative_date }})
-      {%- endif -%}
-      <div class="tags">
-        {% for tag in photo.data.tags %}
-          {% unless tag == 'photo' %}
-            <span class="tag"
-              ><a href="/tag/{{ tag | slugify }}">{{ tag }}</a></span
-            >
-          {% endunless %}
-        {% endfor %}
-      </div>
+  </div>
+  <div class="item-meta">
+    <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
+    {%- if photo.data.published != photo.data.updated -%}
+      <div>(last updated: {{ photo.data.updated | relative_date }})</div>
+    {%- endif -%}
+    <div class="tags">
+      {% for tag in photo.data.tags %}
+        {% unless tag == 'photo' %}
+          <span class="tag"
+            ><a href="/tag/{{ tag | slugify }}">{{ tag }}</a></span
+          >
+        {% endunless %}
+      {% endfor %}
       <span class="camera">📷 {{ photo.data.camera }}</span>
     </div>
   </div>
