@@ -19,6 +19,7 @@
     <title>The Rustling of the Leaves</title>
   </head>
   <body>
+    <div class="topbar" aria-hidden="true"></div>
     {% render 'header' %}
     <main>
       {{ content }}
@@ -26,3 +27,9 @@
   </body>
 </html>
 <script defer src="/scripts/wobbly.js"></script>
+<script defer>
+  import { relativeDate, updateRelativeDate } from './scripts/relativeDate.js';
+
+  updateRelativeDate();
+  setInterval(updateRelativeDate, 60_000);
+</script>
