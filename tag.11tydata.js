@@ -4,15 +4,14 @@ export default {
     size: 1,
     alias: "tag",
     before: function (data) {
-      const excluded = ["note", "review"];
+      const excluded = ["note", "review", "photo"];
       const tags = new Set();
       data.forEach((item) => {
-        (item.data.tags || []).forEach((tag) => {
-          if (!excluded.includes(tag)) tags.add(tag);
-        });
+        (item.data.tags || []).forEach((tag) => tags.add(tag));
       });
       return [...tags];
     },
+    filter: ["note", "review", "photo"],
     addAllPagesToCollection: false,
   },
   permalink: "/tag/{{ tag | downcase | slugify }}/",
