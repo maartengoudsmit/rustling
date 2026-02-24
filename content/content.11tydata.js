@@ -20,11 +20,13 @@ function slugify(title, body, wordLimit = 5) {
 export default {
   eleventyComputed: {
     permalink: (data) => {
+      // Eleventy runs all computed properties once without the data object
+      // If we don't guard against this possibility, the build crashes
       const slug = slugify(data.title, data.page.rawInput);
       const d = new Date(data.published);
       if (!slug || !d) return undefined; // let Eleventy fall back to default
       return `${
-        data.type
+        data.dir
       }/${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${slugify(
         data.title,
         data.page.rawInput,
