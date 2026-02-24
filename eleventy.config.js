@@ -25,4 +25,9 @@ export default function (eleventyConfig) {
       input,
     )}</span>`;
   });
+
+  // Wraps the text in
+  eleventyConfig.addFilter("class", (content, className, element = "div") => {
+    return `<${element} class="${className}">${content}</${element}>`;
+  });
 }

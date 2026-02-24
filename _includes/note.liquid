@@ -4,7 +4,7 @@
       <a href="{{ note.url }}">{{ note.data.title }}</a>
     </h2>
   {% endif %}
-  <div class="note-content">{{ note.content }}</div>
+  {{ note.content | class: 'note-content' }}
   <div class="item-meta">
     <a href="{{ note.url }}">{{ note.data.published | relative_date }}</a>
     {%- if note.data.published != note.data.updated -%}
