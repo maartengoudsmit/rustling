@@ -1,7 +1,7 @@
 export default {
   tags: "photo",
+  type: "photo",
   layout: "photoDetail.liquid",
-  permalink: "photos/{{page.fileSlug}}/",
   eleventyComputed: {
     photo: (data) =>
       data.collections.photo?.find((n) => n.url === data.page.url),
