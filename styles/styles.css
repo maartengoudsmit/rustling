@@ -130,10 +130,6 @@ h2 a:hover {
   text-decoration: none;
 }
 
-h2 a:hover::after {
-  content: " ♾️";
-}
-
 code {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
