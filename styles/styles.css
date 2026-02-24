@@ -85,18 +85,16 @@ a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
-h1 {
+h1 a {
   font-family: var(--font-display);
   font-size: var(--text-display);
   font-weight: 900;
   font-style: italic;
   letter-spacing: -1px;
   line-height: 1.2;
-}
-
-h1 a {
   color: var(--color-text);
 }
+
 h1 a:hover {
   text-decoration: none;
 }
