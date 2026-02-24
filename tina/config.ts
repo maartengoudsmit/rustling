@@ -93,6 +93,11 @@ export default defineConfig({
           },
           {
             type: "string",
+            name: "link",
+            label: "Link",
+          },
+          {
+            type: "string",
             name: "tags",
             label: "Tags",
             list: true,
