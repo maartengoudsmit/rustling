@@ -1,4 +1,7 @@
 <article class="timeline-item review">
+  {% if photo.data.draft %}
+    {% render 'draftBanner' %}
+  {% endif %}
   <div class="review-main">
     <img src="{{ review.data.image }}" alt="Poster for {{ review.data.topic }}" width="200">
     <div class="review-content">

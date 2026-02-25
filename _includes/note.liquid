@@ -1,4 +1,7 @@
 <article class="timeline-item note">
+  {% if note.data.draft %}
+    {% render 'draftBanner' %}
+  {% endif %}
   {% if note.data.title %}
     <h2 class="note-title">
       <a href="{{ note.url }}">{{ note.data.title }}</a>

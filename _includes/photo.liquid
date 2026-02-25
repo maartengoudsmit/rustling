@@ -1,4 +1,7 @@
 <article class="timeline-item photo">
+  {% if photo.data.draft %}
+    {% render 'draftBanner' %}
+  {% endif %}
   <div class="photo-main">
     <img src="{{ photo.data.image }}" alt="{{ photo.content }}" eleventy:widths="640">
     <div class="photo-caption">{{ photo.content }}</div>
