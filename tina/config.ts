@@ -127,6 +127,9 @@ export default defineConfig({
             },
           },
         ],
+        defaultItem: () => {
+          return { draft: true };
+        },
       },
       {
         name: "reviews",
@@ -218,6 +221,9 @@ export default defineConfig({
             },
           },
         ],
+        defaultItem: () => {
+          return { draft: true };
+        },
       },
       {
         name: "photos",
@@ -308,6 +314,9 @@ export default defineConfig({
             },
           },
         ],
+        defaultItem: () => {
+          return { draft: true };
+        },
       },
     ],
   },
