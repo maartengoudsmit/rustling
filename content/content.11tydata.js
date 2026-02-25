@@ -32,5 +32,8 @@ export default {
         data.page.rawInput,
       )}/`;
     },
+    public: (data) => {
+      return !data.draft;
+    },
   },
 };
