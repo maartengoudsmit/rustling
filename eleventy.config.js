@@ -3,15 +3,10 @@ import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { relativeDate } from "./scripts/relativeDate.js";
 
 export default function (eleventyConfig) {
-  eleventyConfig.addGlobalData("eleventyComputed", {
-    permalink(data) {
-      if (data.draft && data.eleventy.env.runMode === "build") return false;
-      return data.permalink;
-    },
-    eleventyExcludeFromCollections(data) {
-      if (data.draft && data.eleventy.env.runMode === "build") return true;
-      return data.eleventyExcludeFromCollections;
-    },
+  eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
+    if (data.draft && process.env.ELEVENTY_RUN_MODE === "build") {
+      return false;
+    }
   });
 
   eleventyConfig.addPassthroughCopy("./styles/");
