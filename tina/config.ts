@@ -106,6 +106,11 @@ export default defineConfig({
             },
           },
           {
+            type: "boolean",
+            name: "draft",
+            label: "Draft",
+          },
+          {
             type: "string",
             name: "published",
             label: "Published",
@@ -192,6 +197,11 @@ export default defineConfig({
             label: "Image URL",
           },
           {
+            type: "boolean",
+            name: "draft",
+            label: "Draft",
+          },
+          {
             type: "string",
             name: "published",
             label: "Published",
@@ -275,6 +285,11 @@ export default defineConfig({
             type: "string",
             name: "camera",
             label: "Camera",
+          },
+          {
+            type: "boolean",
+            name: "draft",
+            label: "Draft",
           },
           {
             type: "string",
