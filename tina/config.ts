@@ -66,6 +66,9 @@ export default defineConfig({
           }) => {
             if (form.crudType === "create") {
               const now = new Date().toISOString();
+              if (typeof values.body === "string") {
+                values.body = values.body.replace(/```htmlbars/g, "```html");
+              }
               return {
                 ...values,
                 published: now,
