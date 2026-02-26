@@ -25,12 +25,9 @@ export default {
       const slug = slugify(data.title, data.page.rawInput);
       const d = new Date(data.published);
       if (!slug || !d) return undefined; // let Eleventy fall back to default
-      return `${
-        data.dir
-      }/${d.getFullYear()}-${d.getMonth()}-${d.getDate()}-${slugify(
-        data.title,
-        data.page.rawInput,
-      )}/`;
+      return `${data.dir}/${d.getFullYear()}-${
+        d.getMonth() + 1
+      }-${d.getDate()}-${slugify(data.title, data.page.rawInput)}/`;
     },
   },
 };
