@@ -7,7 +7,7 @@ const relativeDate = (input) => {
 
   const units = [
     { unit: "year", ms: 1000 * 60 * 60 * 24 * 365 },
-    { unit: "week", ms: 1000 * 60 * 60 * 24 * 30 },
+    { unit: "month", ms: 1000 * 60 * 60 * 24 * 30 },
     { unit: "week", ms: 1000 * 60 * 60 * 24 * 7 },
     { unit: "day", ms: 1000 * 60 * 60 * 24 },
     { unit: "hour", ms: 1000 * 60 * 60 },
