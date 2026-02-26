@@ -1,6 +1,7 @@
 import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { relativeDate } from "./scripts/relativeDate.js";
+import Prism from "prismjs";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
@@ -14,6 +15,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./scripts/");
   eleventyConfig.addWatchTarget("./scripts/");
   eleventyConfig.addPassthroughCopy("./admin/");
+
+  Prism.languages.htmlbars = Prism.languages.html;
   eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
     formats: ["avif", "jpeg"],
