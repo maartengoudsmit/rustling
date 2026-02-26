@@ -27,6 +27,12 @@ export default function (eleventyConfig) {
     const hostname = new URL(url).hostname.replace("www.", "");
     return `<a href="${url}">${hostname}</a>`;
   });
+  eleventyConfig.addPairedShortcode("interactive", (content, title) => {
+    return `<div class="interactive-demo">
+     ${title ? `<span class="demo-label">${title}</span>` : ""}
+     ${content}
+   </div>`;
+  });
 
   eleventyConfig.addFilter("relative_date", (input) => {
     // Embed date into span element for easy retrieval at run time

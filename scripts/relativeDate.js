@@ -1,5 +1,5 @@
 const relativeDate = (input) => {
-  const diff = new Date(input) - Date.now();
+  const diff = Math.min(new Date(input) - Date.now(), -1000);
   const rel = new Intl.RelativeTimeFormat("en", {
     style: "long",
     numeric: "auto",
@@ -12,6 +12,7 @@ const relativeDate = (input) => {
     { unit: "day", ms: 1000 * 60 * 60 * 24 },
     { unit: "hour", ms: 1000 * 60 * 60 },
     { unit: "minute", ms: 1000 * 60 },
+    { unit: "second", ms: 1000 },
   ];
 
   // Find the largest time unit that exceeds the corresponding ms thresholds
@@ -25,7 +26,7 @@ const updateRelativeDate = () => {
   elements.forEach((el) => {
     // The relative_data filter bakes the date for each post into
     // the span element as data-date
-    el.textContent = relativeDate(el.dataset.date);
+    el.innerText = relativeDate(el.dataset.date);
   });
 };
 
