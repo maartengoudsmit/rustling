@@ -2,7 +2,6 @@ import { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import { relativeDate } from "./scripts/relativeDate.js";
 import Prism from "prismjs";
-import { feedPlugin } from "@11ty/eleventy-plugin-rss";
 
 export default function (eleventyConfig) {
   eleventyConfig.addPreprocessor("drafts", "*", (data, content) => {
@@ -19,25 +18,6 @@ export default function (eleventyConfig) {
 
   Prism.languages.htmlbars = Prism.languages.html;
   eleventyConfig.addPlugin(syntaxHighlight);
-
-  eleventyConfig.addPlugin(feedPlugin, {
-    type: "atom", // or "rss", "json"
-    outputPath: "/feed.xml",
-    collection: {
-      name: "all", // iterate over `collections.posts`
-      limit: 0, // 0 means no limit
-    },
-    metadata: {
-      language: "en",
-      title: "The Rustling of the Leaves",
-      subtitle: "",
-      base: "https://timecrowave.neocities.org/",
-      author: {
-        name: "Maarten Goudsmit",
-        email: "", // Optional
-      },
-    },
-  });
 
   eleventyConfig.addPlugin(eleventyImageTransformPlugin, {
     formats: ["avif", "jpeg"],
