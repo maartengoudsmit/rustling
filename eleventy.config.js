@@ -43,6 +43,12 @@ export default function (eleventyConfig) {
     )}</span>`;
   });
 
+  const siteUrl = "https://timecrowave.neocities.org";
+  eleventyConfig.addFilter("absolute_url", (url) => {
+    if (!url) return siteUrl;
+    return new URL(url, siteUrl).href;
+  });
+
   // Wraps text in a div element with a custom class name
   // The div element can optionally be another element (e.g. h2)
   eleventyConfig.addFilter("class", (content, className, element = "div") => {

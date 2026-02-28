@@ -1,0 +1,41 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+{%- assign notes = collections.note | reverse -%}
+{%- assign reviews = collections.review | reverse -%}
+{%- assign photos = collections.photo | reverse -%}
+{%- assign posts = notes | concat: reviews | concat: photos | sort: 'data.published' | reverse -%}
+{%- assign latest = posts | first -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Rustling of the Leaves</title>
+  <link href="https://timecrowave.neocities.org"/>
+  <link href="https://timecrowave.neocities.org/feed.xml" rel="self"/>
+  <updated>{{ latest.data.updated | default: latest.data.published }}</updated>
+  <id>https://timecrowave.neocities.org/</id>
+  <author>
+    <name>Maarten Goudsmit</name>
+  </author>
+  {%- for post in posts %}
+  <entry>
+    <title>
+      {%- if post.data.tags contains 'note' -%}
+        {{ post.data.title | default: 'Note' | xml_escape }}
+      {%- elsif post.data.tags contains 'review' -%}
+        {{ post.data.topic | xml_escape }}
+      {%- elsif post.data.tags contains 'photo' -%}
+        Photo
+      {%- endif -%}
+    </title>
+    <link href="{{ post.url | absolute_url }}"/>
+    <id>{{ post.url | absolute_url }}</id>
+    <published>{{ post.data.published }}</published>
+    <updated>{{ post.data.updated | default: post.data.published }}</updated>
+    {%- for tag in post.data.tags %}
+    <category term="{{ tag | xml_escape }}"/>
+    {%- endfor %}
+    <content type="html">{{ post.templateContent | xml_escape }}</content>
+  </entry>
+  {%- endfor %}
+</feed>
