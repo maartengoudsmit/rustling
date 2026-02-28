@@ -8,6 +8,9 @@
     </h2>
   {% endif %}
   {{ note.content | class: 'note-content' }}
+  {% if note.data.link %}
+    <p class="note-link">🔗 {% hostname note.data.link %}</p>
+  {% endif %}
   <div class="item-meta">
     <a href="{{ note.url }}">{{ note.data.published | relative_date }}</a>
     {%- if note.data.published != note.data.updated -%}
