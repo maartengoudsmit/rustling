@@ -12,9 +12,11 @@
     <p class="note-link">🔗 {% hostname note.data.link %}</p>
   {% endif %}
   <div class="item-meta">
-    <a href="{{ note.url }}">{{ note.data.published | relative_date }}</a>
+    <a href="{{ note.url }}" title="First published on {{ note.data.published }}">
+      {{- note.data.published | relative_date -}}
+    </a>
     {%- if note.data.published != note.data.updated -%}
-      <div>(last updated: {{ note.data.updated | relative_date }})</div>
+      <div title="Last updated on {{ note.data.updated }}">(last updated: {{ note.data.updated | relative_date }})</div>
     {%- endif -%}
     <div class="tags">
       {% for tag in note.data.tags %}

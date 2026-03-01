@@ -7,9 +7,13 @@
     <div class="photo-caption">{{ photo.content }}</div>
   </div>
   <div class="item-meta">
-    <a href="{{ photo.url }}">{{ photo.data.published | relative_date }}</a>
+    <a href="{{ photo.url }}" title="First published on {{ photo.data.published }}">
+      {{- photo.data.published | relative_date -}}
+    </a>
     {%- if photo.data.published != photo.data.updated -%}
-      <div>(last updated: {{ photo.data.updated | relative_date }})</div>
+      <div title="Last updated on {{ photo.data.updated }}">
+        (last updated: {{ photo.data.updated | relative_date }})
+      </div>
     {%- endif -%}
     <div class="tags">
       {% for tag in photo.data.tags %}

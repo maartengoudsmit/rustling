@@ -13,9 +13,13 @@
     </div>
   </div>
   <div class="item-meta">
-    <a href="{{ review.page.url }}">posted {{ review.data.published | relative_date }}</a>
+    <a href="{{ review.page.url }}" title="First published on {{ review.data.published }}"
+      >posted {{ review.data.published | relative_date -}}
+    </a>
     {%- if review.data.published != review.data.updated -%}
-      <div>(last updated: {{ review.data.updated | relative_date }})</div>
+      <div title="Last updated on {{ review.data.updated }}">
+        (last updated: {{ review.data.updated | relative_date }})
+      </div>
     {%- endif -%}
     <div class="tags">
       {% for tag in review.data.tags %}
