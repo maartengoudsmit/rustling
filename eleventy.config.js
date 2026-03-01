@@ -10,6 +10,7 @@ export default function (eleventyConfig) {
     }
   });
 
+  eleventyConfig.addPassthroughCopy("./favicon.svg");
   eleventyConfig.addPassthroughCopy("./styles/");
   eleventyConfig.addWatchTarget("./styles/");
   eleventyConfig.addPassthroughCopy("./scripts/");
