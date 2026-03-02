@@ -321,6 +321,93 @@ export default defineConfig({
           return { draft: true };
         },
       },
+      {
+        name: "seeds",
+        format: "md",
+        label: "Seeds",
+        path: "content/seeds",
+        ui: {
+          filename: {
+            slugify(values, meta) {
+              return `${values.title}`;
+            },
+          },
+          beforeSubmit: async ({
+            form,
+            cms,
+            values,
+          }: {
+            form: Form;
+            cms: TinaCMS;
+            values: Record<string, any>;
+          }) => {
+            if (form.crudType === "create") {
+              const now = new Date().toISOString();
+              if (typeof values.body === "string") {
+                values.body = values.body.replace(/```htmlbars/g, "```html");
+              }
+              return {
+                ...values,
+                published: now,
+                updated: now,
+              };
+            } else {
+              return {
+                ...values,
+                updated: new Date().toISOString(),
+              };
+            }
+          },
+        },
+        fields: [
+          {
+            type: "string",
+            name: "title",
+            label: "Title",
+            isTitle: true,
+            required: true,
+          },
+          {
+            type: "rich-text",
+            name: "body",
+            label: "Body",
+            isBody: true,
+          },
+          {
+            type: "string",
+            name: "tags",
+            label: "Tags",
+            list: true,
+            ui: {
+              parse: (val: string[]) => val.map((t) => t && t.toLowerCase()),
+            },
+          },
+          {
+            type: "boolean",
+            name: "draft",
+            label: "Draft",
+          },
+          {
+            type: "string",
+            name: "published",
+            label: "Published",
+            ui: {
+              component: null,
+            },
+          },
+          {
+            type: "string",
+            name: "updated",
+            label: "Updated",
+            ui: {
+              component: null,
+            },
+          },
+        ],
+        defaultItem: () => {
+          return { draft: true };
+        },
+      },
     ],
   },
 });
