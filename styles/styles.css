@@ -205,7 +205,7 @@ nav {
   border-radius: var(--radius-md);
 }
 
-/* Notes - card style */
+/* Notes */
 .timeline-item.note {
   background: var(--color-bg-secondary);
   box-shadow: var(--shadow-sm);
@@ -213,7 +213,6 @@ nav {
   width: min(var(--max-width), 90vw);
 }
 
-/* Notes */
 .note-content {
   line-height: 1.7;
 }
@@ -231,6 +230,13 @@ nav {
   border-radius: var(--radius-sm);
   margin-bottom: 1rem;
   overflow-x: scroll;
+}
+
+.note-content img,
+picture {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 /* Review */
