@@ -234,8 +234,9 @@ nav {
 
 .note-content img,
 picture {
-  width: 100%;
+  width: calc(100% + 2.5rem);
   height: auto;
+  transform: translateX(-1.25rem);
   object-fit: contain;
 }
 
