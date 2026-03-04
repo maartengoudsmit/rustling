@@ -118,8 +118,12 @@ h1 a:hover {
   text-decoration: none;
 }
 
-h2 {
+h2,
+h3 {
   font-family: var(--font-heading);
+}
+
+h2 {
   font-size: var(--text-2xl);
   font-weight: 700;
   font-style: normal;
