@@ -4,8 +4,8 @@
   {% endif %}
   <div class="photo-main">
     <img src="{{ photo.data.image }}" alt="{{ photo.content }}" eleventy:widths="640">
-    <div class="photo-caption">{{ photo.content }}</div>
   </div>
+  <div class="photo-caption">{{ photo.content }}</div>
   <div class="item-meta">
     <a href="{{ photo.url }}" title="First published on {{ photo.data.published }}">
       {{- photo.data.published | relative_date -}}

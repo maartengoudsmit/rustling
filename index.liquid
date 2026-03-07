@@ -7,10 +7,17 @@ layout: base.liquid
   {% for post in posts %}
     {% if post.data.tags contains 'note' %}
       {% render 'note' with post as note %}
+      {% if forloop.last != true %}
+        <div class="wobbly-divider"><svg /></div>
+      {% endif %}
     {% elsif post.data.tags contains 'review' %}
       {% render 'review' with post as review %}
+      {% if forloop.last != true %}
+        <div class="wobbly-divider"><svg /></div>
+      {% endif %}
     {% elsif post.data.tags contains 'photo' %}
       {% render 'photo' with post as photo %}
+      <div class="wobbly-divider"><svg /></div>
     {% endif %}
   {% endfor %}
 </div>

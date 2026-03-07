@@ -94,16 +94,37 @@ function wobblyLine(x1, y1, x2, y2, opts = {}) {
   return `<path d="${d}" fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>`;
 }
 
-const container = document.querySelector("#wobbly-divider");
-const svg = container.querySelector("svg");
-const width = container.clientWidth;
-svg.setAttribute("viewBox", `0 0 ${width} 20`);
-svg.setAttribute("preserveAspectRatio", "none");
-const wobbly = wobblyLine(0, 10, width, 10, {
-  wobble: 1.5,
-  roughness: 0.4,
-  asPath: false,
-});
-const fillPath = `M 0 0 L 0 10 ${wobbly.replace("M", "L")} L ${width} 0 Z`;
-svg.innerHTML = `<path id="wobbly-divider-fill" d="${fillPath}" stroke="none"/>
-  <path id="wobbly-divider-line" d="${wobbly}" fill="none" stroke-width="1.5" stroke-linecap="round"/>`;
+function drawWobblyHeader() {
+  const container = document.querySelector(".wobbly-divider-header");
+  const svg = container.querySelector("svg");
+  const width = container.clientWidth;
+  svg.setAttribute("viewBox", `0 0 ${width} 20`);
+  svg.setAttribute("preserveAspectRatio", "none");
+  const wobbly = wobblyLine(0, 10, width, 10, {
+    wobble: 1.5,
+    roughness: 0.6,
+    asPath: false,
+  });
+  const fillPath = `M 0 0 L 0 10 ${wobbly.replace("M", "L")} L ${width} 0 Z`;
+  svg.innerHTML = `<path class="wobbly-divider-fill" d="${fillPath}" stroke="none"/>
+  <path class="wobbly-divider-line" d="${wobbly}" fill="none" stroke-width="3" stroke-linecap="round"/>`;
+}
+
+function drawWobblyDividers() {
+  const containers = document.querySelectorAll(".wobbly-divider");
+  for (container of containers) {
+    const svg = container.querySelector("svg");
+    const width = container.clientWidth;
+    svg.setAttribute("viewBox", `0 0 ${width} 20`);
+    svg.setAttribute("preserveAspectRatio", "none");
+    const wobbly = wobblyLine(0, 10, width, 10, {
+      wobble: 1.5,
+      roughness: 0.4,
+      asPath: false,
+    });
+    svg.innerHTML = `<path class="wobbly-divider-line" d="${wobbly}" fill="none" stroke-width="0.5" stroke-linecap="round"/>`;
+  }
+}
+
+drawWobblyHeader();
+drawWobblyDividers();
