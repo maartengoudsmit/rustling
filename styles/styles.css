@@ -256,8 +256,13 @@ picture {
   align-items: center;
 }
 
+.photo-main img {
+  width: 100%;
+  height: auto;
+}
+
 .photo-caption p {
-  font-family: var(--font-handwritten);
+  font-family: var(--font-body);
 }
 
 /* Meta */
